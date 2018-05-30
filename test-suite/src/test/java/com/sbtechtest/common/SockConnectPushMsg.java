@@ -11,15 +11,15 @@ import org.eclipse.jetty.websocket.client.WebSocketClient;
 import com.sbtechtest.cpo.SocketMessages;
 import com.sbtechtest.cpo.SocketMessaging;
 
-public class SockConnectPushReadMsg {
-	private static SockConnectPushReadMsg instance = new SockConnectPushReadMsg();
+public class SockConnectPushMsg {
+	private static SockConnectPushMsg instance = new SockConnectPushMsg();
 	SocketMessages msgObj = new SocketMessaging();
 
 	GetUrl uriObj = GetUrl.getInstance();
-	private SockConnectPushReadMsg(){}
+	private SockConnectPushMsg(){}
 
 	//Get the only object available
-	public static SockConnectPushReadMsg getInstance(){
+	public static SockConnectPushMsg getInstance(){
 		return instance;
 	}
 
@@ -34,6 +34,7 @@ public class SockConnectPushReadMsg {
 				session.getRemote().sendStringByFuture((msgObj.subscribe(msg)).toJSONString());
 
 				session.close();
+
 			}
 		};
 
