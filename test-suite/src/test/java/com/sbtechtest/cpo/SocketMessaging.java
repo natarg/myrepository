@@ -6,6 +6,8 @@ import org.json.simple.JSONObject;
 
 public class SocketMessaging implements SocketMessages{
 
+
+
 	public JSONObject getStatus(String entity, int entityNo) {
 		JSONObject statObj = new JSONObject();
 		statObj.put("type", "event");
