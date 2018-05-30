@@ -57,18 +57,18 @@ public class TestSportsBookApi extends SchemaInit  {
 	public void the_response_to_the_query_on_markets_matches_the_markets_schema() throws Throwable {
 		// This has extracted one market id and passed the same to markets resource path under sportsbook and verified the schema of the resultant response
 		// market is for an event
-		/*JsonNode baseNode;
+		JsonNode baseNode;
 		baseNode = myNode.get("markets").get("\""+eventId+"\"");
 		marketId = baseNode.get(0).get("marketId").asText();
 		get(setObj.getSportsMarketUrl()+"/"+marketId).then().assertThat().body(matchesJsonSchemaInClasspath("MarketSchema.json").using(jsonSchemaFactoryObj));
-		scenario.write("The schema verified for the marketId"+ marketId);*/
+		scenario.write("The schema verified for the marketId"+ marketId);
 	}
 
 	@Then("^the response to the query on outcomes events matches the outcomes schema$")
 	public void the_response_to_the_query_on_outcomes_events_matches_the_outcomes_schema() throws Throwable {
 		// This has extracted one outcome id and passed the same to outcome resource path under sportsbook and verified the schema of the resultant response
 		// an outcome is for a market
-		/*outcomeId = myNode.get("outcomes").get("\""+marketId+"\"").get(0).get("outcomeId").asText();
-		get(setObj.getSportsOutComeUrl()+"/"+outcomeId).then().assertThat().body(matchesJsonSchemaInClasspath("MarketSchema.json").using(jsonSchemaFactoryObj))*/;
+		outcomeId = myNode.get("outcomes").get("\""+marketId+"\"").get(0).get("outcomeId").asText();
+		get(setObj.getSportsOutComeUrl()+"/"+outcomeId).then().assertThat().body(matchesJsonSchemaInClasspath("MarketSchema.json").using(jsonSchemaFactoryObj));
 	}
 }
