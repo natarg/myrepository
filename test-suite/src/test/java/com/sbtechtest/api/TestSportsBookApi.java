@@ -69,6 +69,6 @@ public class TestSportsBookApi extends SchemaInit  {
 		// This has extracted one outcome id and passed the same to outcome resource path under sportsbook and verified the schema of the resultant response
 		// an outcome is for a market
 		outcomeId = myNode.get("outcomes").get("\""+marketId+"\"").get(0).get("outcomeId").asText();
-		get(setObj.getSportsOutComeUrl()+"/"+outcomeId).then().assertThat().body(matchesJsonSchemaInClasspath("MarketSchema.json").using(jsonSchemaFactoryObj));
+		get(setObj.getSportsOutComeUrl()+"/"+outcomeId).then().assertThat().body(matchesJsonSchemaInClasspath("OutcomeSchema.json").using(jsonSchemaFactoryObj));
 	}
 }
