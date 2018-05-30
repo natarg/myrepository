@@ -36,9 +36,11 @@ public class TestSportsBookApi extends SchemaInit  {
 	public void there_are_set_of_foot_ball_live_events() throws Throwable {
 		// Below is a sample to retrieve an event id from football live api for testing events schema later
 		// This uses Jackson JSONNode class to extract a value
+		System.out.println("Printing"+ setObj.getFootBallLive()+"?primaryMarkets=true");
+		rsp = get(setObj.getFootBallLive()+"?primaryMarkets=true");
 
-		rsp = get(setObj.getFootBallLive());
 		myNode = getObj.getJsonNode(rsp.asString());
+		System.out.println("Printing full response"+ rsp.asString());
 
 	}
 
@@ -57,9 +59,9 @@ public class TestSportsBookApi extends SchemaInit  {
 	public void the_response_to_the_query_on_markets_matches_the_markets_schema() throws Throwable {
 		// This has extracted one market id and passed the same to markets resource path under sportsbook and verified the schema of the resultant response
 		// market is for an event
-		JsonNode baseNode;
-		baseNode = myNode.get("markets").get("\""+eventId+"\"");
-		marketId = baseNode.get(0).get("marketId").asText();
+		eventId = eventId.toString();
+
+		marketId = myNode.get("markets").get(eventId).get(0).get("marketId").asText();
 		get(setObj.getSportsMarketUrl()+"/"+marketId).then().assertThat().body(matchesJsonSchemaInClasspath("MarketSchema.json").using(jsonSchemaFactoryObj));
 		scenario.write("The schema verified for the marketId"+ marketId);
 	}
@@ -68,7 +70,8 @@ public class TestSportsBookApi extends SchemaInit  {
 	public void the_response_to_the_query_on_outcomes_events_matches_the_outcomes_schema() throws Throwable {
 		// This has extracted one outcome id and passed the same to outcome resource path under sportsbook and verified the schema of the resultant response
 		// an outcome is for a market
-		outcomeId = myNode.get("outcomes").get("\""+marketId+"\"").get(0).get("outcomeId").asText();
+		marketId = marketId.toString();
+		outcomeId = myNode.get("outcomes").get(marketId).get(0).get("outcomeId").asText();
 		get(setObj.getSportsOutComeUrl()+"/"+outcomeId).then().assertThat().body(matchesJsonSchemaInClasspath("OutcomeSchema.json").using(jsonSchemaFactoryObj));
 	}
 }

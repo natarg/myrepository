@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JSONDeserializer {
-	// As of now this has only objectMapper , it can be added with additional functions to deserialize the Json response
+	// As of now this has only objectMapper , it can be added with additional functions to get to the elements in the Json response
 	public static JSONDeserializer  instance = new JSONDeserializer ();
 	ObjectMapper myObjMap = new ObjectMapper();
 
@@ -22,6 +22,11 @@ public class JSONDeserializer {
 	public JsonNode getJsonNode(String jsonRsp) throws IOException, JsonParseException,
 	JsonMappingException {
 		JsonNode node = myObjMap.readValue(jsonRsp, JsonNode.class);
+		return node;
+	}
+	public JsonNode readJson(String jsonRsp) throws IOException, JsonParseException,
+	JsonMappingException {
+		JsonNode node = myObjMap.readTree(jsonRsp);
 		return node;
 	}
 
