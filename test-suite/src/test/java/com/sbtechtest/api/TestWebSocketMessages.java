@@ -31,7 +31,7 @@ public class TestWebSocketMessages extends SocketMsgsEcho{
 	@Then("^the socket message is published with status on the event$")
 	public void onConnect() throws Exception{
 
-
+		// to open socket and assert the message content containing the specific events
 
 
 
