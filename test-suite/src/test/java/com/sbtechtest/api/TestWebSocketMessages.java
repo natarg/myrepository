@@ -5,7 +5,6 @@ import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jetty.websocket.client.ClientUpgradeRequest;
 import org.eclipse.jetty.websocket.client.WebSocketClient;
-import org.json.simple.JSONObject;
 
 import com.sbtechtest.common.GetUrl;
 import com.sbtechtest.common.SockConnectPushMsg;
@@ -21,12 +20,22 @@ public class TestWebSocketMessages {
 	GetUrl uriObj = GetUrl.getInstance();
 
 	SocketReader readMsg = new SocketReader();
-	RequestBodyMessages socMsgObj = new SocketMessages();
-	protected JSONObject message;
+	protected RequestBodyMessages socMsgObj = new SocketMessages();
+	protected String message;
+	public TestWebSocketMessages() {
+		socMsgObj.setSubscribe("o.*");
+
+		message = socMsgObj.getSubscribe().toJSONString();
+
+	}
 
 	@Given("^there is a websocket message to subscribe to all events$")
 	public void there_is_a_websocket_message_to_subscribe_to_all_events() throws Throwable {
-		socMsgObj.setSubscribe("e.*");;
+		socMsgObj.setSubscribe("e.*");
+
+		message = socMsgObj.getSubscribe().toJSONString();
+
+		System.out.println("Printing"+message);
 
 	}
 
@@ -34,7 +43,7 @@ public class TestWebSocketMessages {
 	public void the_message_is_pushed_via_websocket_api() throws Throwable {
 		WebSocketClient client = new WebSocketClient();
 		SockConnectPushMsg sockObj = new SockConnectPushMsg();
-		System.out.println("Printing the message"+ socMsgObj.getSubscribe().toJSONString());
+		System.out.println("Printing the message"+ message);
 		try {
 			client.start();
 			URI echoUri = new URI(uriObj.readUrlFile("socketUri"));

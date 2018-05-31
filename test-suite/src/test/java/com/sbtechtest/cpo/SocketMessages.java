@@ -8,9 +8,11 @@ public class SocketMessages implements RequestBodyMessages{
 
 	private String entity;
 	private int entityNo;
-	private String type;
+
 	private final JSONObject subscribe = new JSONObject();
 	private final JSONObject unsubscribe = new JSONObject();
+
+
 	public void setStatus(String entity, int entityNo){
 		this.entity = entity;
 		this.entityNo = entityNo;
@@ -21,11 +23,10 @@ public class SocketMessages implements RequestBodyMessages{
 		statObj.put("id", this.entityNo);
 		return statObj;
 	}
-	public void setType(String type){
-		this.type = type;
-	}
+
 
 	public JSONObject getSubscribe(){
+		System.out.println("printing n getter setter"+ this.subscribe.toJSONString());
 		return this.subscribe;
 	}
 
@@ -55,7 +56,7 @@ public class SocketMessages implements RequestBodyMessages{
 	public void setUnSubscribe() {
 
 
-		this.unsubscribe.put("type", "subscribe");
+		this.unsubscribe.put("type", "unsubscribe");
 
 
 	}

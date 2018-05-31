@@ -12,7 +12,7 @@ public interface RequestBodyMessages {
 
 	public void setStatus(String entity, int entityNo);
 	public JSONObject getStatus();
-	public void setType(String type);
+
 	public JSONObject getSubscribe();
 	public void setSubscribe( String id);
 	public void setUnSubscribe(String id);

@@ -7,7 +7,7 @@ import cucumber.api.junit.Cucumber;
 @RunWith(Cucumber.class)
 @CucumberOptions(features = "src/test/resources/features/sanity/TestWebSocketMessaging.feature", plugin = {
 "com.sbtechtest.common.CustomCucumberJSONFormatter:target/$BUILD_ID/cucumber/cucumber_json/testsportsapi.json" }, glue = {
-"com.sbtechtest.api"},tags={"@run_websocket_subscribespecificevent"})
+"com.sbtechtest.api"},tags={"@run_websocket_subscribeallevents"})
 
 public class RunCukes_AT {
 

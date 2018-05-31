@@ -11,10 +11,11 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import org.json.simple.JSONObject;
 
+import com.sbtechtest.api.TestWebSocketMessages;
 import com.sbtechtest.cpo.RequestBodyMessages;
 import com.sbtechtest.cpo.SocketMessages;
 @WebSocket(maxTextMessageSize = 64 * 1024)
-public class SockConnectPushMsg  {
+public class SockConnectPushMsg extends TestWebSocketMessages  {
 
 	RequestBodyMessages mymsg = new SocketMessages();
 	private final CountDownLatch closeLatch;
@@ -48,12 +49,12 @@ public class SockConnectPushMsg  {
 	@OnWebSocketConnect
 	public void onConnect(Session session) {
 		System.out.printf("Got connect: %s%n", session);
-
+		mymsg.setSubscribe("e.*");
 		this.session = session;
-		System.out.println("Printing the message sent inside child class"+ mymsg.getSubscribe().toJSONString());
+		//	System.out.println("Printing the message sent inside child class"+ super.message.toJSONString());
 		try {
 			Future<Void> fut;
-			fut = session.getRemote().sendStringByFuture(mymsg.getSubscribe().toJSONString());
+			fut = session.getRemote().sendStringByFuture(super.message);
 			fut.get(10, TimeUnit.SECONDS);
 			/*fut = session.getRemote().sendStringByFuture(mymsg.subscribe("e.21249950").toJSONString());
 			fut.get(5, TimeUnit.SECONDS);*/
