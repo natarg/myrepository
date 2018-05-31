@@ -1,6 +1,8 @@
 package com.sbtechtest.api;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jetty.websocket.client.ClientUpgradeRequest;
@@ -8,7 +10,6 @@ import org.eclipse.jetty.websocket.client.WebSocketClient;
 
 import com.sbtechtest.common.GetUrl;
 import com.sbtechtest.common.SockConnectPushMsg;
-import com.sbtechtest.common.SocketReader;
 import com.sbtechtest.cpo.RequestBodyMessages;
 import com.sbtechtest.cpo.SocketMessages;
 
@@ -18,8 +19,8 @@ import cucumber.api.java.en.When;
 
 public class TestWebSocketMessages {
 	GetUrl uriObj = GetUrl.getInstance();
+	protected final List<String> messages = new ArrayList<String>();
 
-	SocketReader readMsg = new SocketReader();
 	protected RequestBodyMessages socMsgObj = new SocketMessages();
 	protected String message;
 	public TestWebSocketMessages() {
@@ -65,6 +66,7 @@ public class TestWebSocketMessages {
 
 	@Then("^the response to the message published has status for all events$")
 	public void the_response_to_the_message_published_has_status_for_all_events() throws Throwable {
+
 
 
 	}

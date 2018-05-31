@@ -67,6 +67,9 @@ public class SockConnectPushMsg extends TestWebSocketMessages  {
 	@OnWebSocketMessage
 	public void onMessage(String msg) {
 		System.out.printf("Got msg: %s%n", msg);
+
+		super.messages.add(message);
+
 	}
 
 
