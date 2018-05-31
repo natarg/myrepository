@@ -7,13 +7,14 @@ import org.eclipse.jetty.websocket.api.WebSocketAdapter;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.client.ClientUpgradeRequest;
 import org.eclipse.jetty.websocket.client.WebSocketClient;
+import org.json.simple.JSONObject;
 
+import com.sbtechtest.cpo.RequestBodyMessages;
 import com.sbtechtest.cpo.SocketMessages;
-import com.sbtechtest.cpo.SocketMessaging;
 
 public class SockConnectPushMsg {
 	private static SockConnectPushMsg instance = new SockConnectPushMsg();
-	SocketMessages msgObj = new SocketMessaging();
+	RequestBodyMessages msgObj = new SocketMessages();
 
 	GetUrl uriObj = GetUrl.getInstance();
 	private SockConnectPushMsg(){}
@@ -23,7 +24,7 @@ public class SockConnectPushMsg {
 		return instance;
 	}
 
-	public void connect(final String msg) throws Exception {
+	public void connect(final JSONObject msg) throws Exception {
 		final WebSocketClient client = new WebSocketClient();
 
 		client.start();
@@ -31,7 +32,7 @@ public class SockConnectPushMsg {
 		final WebSocketAdapter socket = new WebSocketAdapter() {
 			@Override
 			public void onWebSocketConnect(Session session) {
-				session.getRemote().sendStringByFuture((msgObj.subscribe(msg)).toJSONString());
+				session.getRemote().sendStringByFuture(msg.toJSONString());
 
 				session.close();
 
@@ -51,6 +52,7 @@ public class SockConnectPushMsg {
 
 	@OnWebSocketMessage
 	public void onMessage(String msg) {
+
 		System.out.printf("Got msg: %s%n", msg);
 	}
 }
