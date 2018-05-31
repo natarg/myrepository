@@ -1,58 +1,72 @@
 package com.sbtechtest.common;
 
-import java.net.URI;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jetty.websocket.api.Session;
-import org.eclipse.jetty.websocket.api.WebSocketAdapter;
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
-import org.eclipse.jetty.websocket.client.ClientUpgradeRequest;
-import org.eclipse.jetty.websocket.client.WebSocketClient;
+import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import org.json.simple.JSONObject;
 
 import com.sbtechtest.cpo.RequestBodyMessages;
 import com.sbtechtest.cpo.SocketMessages;
+@WebSocket(maxTextMessageSize = 64 * 1024)
+public class SockConnectPushMsg  {
 
-public class SockConnectPushMsg {
-	private static SockConnectPushMsg instance = new SockConnectPushMsg();
-	RequestBodyMessages msgObj = new SocketMessages();
-
+	RequestBodyMessages mymsg = new SocketMessages();
+	private final CountDownLatch closeLatch;
 	GetUrl uriObj = GetUrl.getInstance();
-	private SockConnectPushMsg(){}
+	JSONObject my1 = new JSONObject();
 
-	//Get the only object available
-	public static SockConnectPushMsg getInstance(){
-		return instance;
+
+	@SuppressWarnings("unused")
+	private Session session;
+
+	public SockConnectPushMsg() {
+		this.closeLatch = new CountDownLatch(1);
+
+
 	}
 
+	public boolean awaitClose(int duration, TimeUnit unit) throws InterruptedException {
+		return this.closeLatch.await(duration, unit);
+	}
 	public void connect(final JSONObject msg) throws Exception {
-		final WebSocketClient client = new WebSocketClient();
 
-		client.start();
+	}
 
-		final WebSocketAdapter socket = new WebSocketAdapter() {
-			@Override
-			public void onWebSocketConnect(Session session) {
-				session.getRemote().sendStringByFuture(msg.toJSONString());
+	@OnWebSocketClose
+	public void onClose(int statusCode, String reason) {
+		System.out.printf("Connection closed: %d - %s%n", statusCode, reason);
+		this.session = null;
+		this.closeLatch.countDown();
+	}
 
-				session.close();
+	@OnWebSocketConnect
+	public void onConnect(Session session) {
+		System.out.printf("Got connect: %s%n", session);
 
-			}
-		};
-
-		client.connect(
-				socket,
-				URI.create(uriObj.readUrlFile("socketUri")),
-				new ClientUpgradeRequest()
-				);
-
-		Thread.sleep(1000L);
-
-		client.stop();
+		this.session = session;
+		System.out.println("Printing the message sent inside child class"+ mymsg.getSubscribe().toJSONString());
+		try {
+			Future<Void> fut;
+			fut = session.getRemote().sendStringByFuture(mymsg.getSubscribe().toJSONString());
+			fut.get(10, TimeUnit.SECONDS);
+			/*fut = session.getRemote().sendStringByFuture(mymsg.subscribe("e.21249950").toJSONString());
+			fut.get(5, TimeUnit.SECONDS);*/
+			//session.close(StatusCode.NORMAL, "I'm done");
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
 	}
 
 	@OnWebSocketMessage
 	public void onMessage(String msg) {
-
 		System.out.printf("Got msg: %s%n", msg);
 	}
+
+
 }

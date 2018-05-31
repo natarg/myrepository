@@ -1,5 +1,10 @@
 package com.sbtechtest.api;
 
+import java.net.URI;
+import java.util.concurrent.TimeUnit;
+
+import org.eclipse.jetty.websocket.client.ClientUpgradeRequest;
+import org.eclipse.jetty.websocket.client.WebSocketClient;
 import org.json.simple.JSONObject;
 
 import com.sbtechtest.common.GetUrl;
@@ -14,21 +19,39 @@ import cucumber.api.java.en.When;
 
 public class TestWebSocketMessages {
 	GetUrl uriObj = GetUrl.getInstance();
-	SockConnectPushMsg sockObj = SockConnectPushMsg.getInstance();
+
 	SocketReader readMsg = new SocketReader();
 	RequestBodyMessages socMsgObj = new SocketMessages();
-	JSONObject message;
+	protected JSONObject message;
 
 	@Given("^there is a websocket message to subscribe to all events$")
 	public void there_is_a_websocket_message_to_subscribe_to_all_events() throws Throwable {
-		message = socMsgObj.subscribe("e.*");
+		socMsgObj.setSubscribe("e.*");;
 
 	}
 
 	@When("^the message is pushed via websocket api$")
 	public void the_message_is_pushed_via_websocket_api() throws Throwable {
-		sockObj.connect(message);
+		WebSocketClient client = new WebSocketClient();
+		SockConnectPushMsg sockObj = new SockConnectPushMsg();
+		System.out.println("Printing the message"+ socMsgObj.getSubscribe().toJSONString());
+		try {
+			client.start();
+			URI echoUri = new URI(uriObj.readUrlFile("socketUri"));
+			ClientUpgradeRequest request = new ClientUpgradeRequest();
+			client.connect(sockObj, echoUri, request);
+			System.out.printf("Connecting to : %s%n", echoUri);
+			sockObj.awaitClose(10, TimeUnit.SECONDS);
+		} catch (Throwable t) {
+			t.printStackTrace();
+		} finally {
+			try {
+				client.stop();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
+		}
 	}
 
 	@Then("^the response to the message published has status for all events$")
@@ -39,7 +62,7 @@ public class TestWebSocketMessages {
 
 	@Given("^there is a websocket \"([^\"]*)\" to subscribe to a specific event$")
 	public void there_is_a_websocket_to_subscribe_to_a_specific_event(String arg1) throws Throwable {
-		message = socMsgObj.subscribe(arg1);
+		socMsgObj.setSubscribe(arg1);
 
 	}
 

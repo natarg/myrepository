@@ -6,40 +6,64 @@ import org.json.simple.JSONObject;
 
 public class SocketMessages implements RequestBodyMessages{
 
-
-
-	public JSONObject getStatus(String entity, int entityNo) {
+	private String entity;
+	private int entityNo;
+	private String type;
+	private final JSONObject subscribe = new JSONObject();
+	private final JSONObject unsubscribe = new JSONObject();
+	public void setStatus(String entity, int entityNo){
+		this.entity = entity;
+		this.entityNo = entityNo;
+	}
+	public JSONObject getStatus() {
 		JSONObject statObj = new JSONObject();
-		statObj.put("type", "event");
-		statObj.put("id", entityNo);
+		statObj.put("type", this.entity);
+		statObj.put("id", this.entityNo);
 		return statObj;
 	}
+	public void setType(String type){
+		this.type = type;
+	}
 
-	public JSONObject subscribe( String id) {
-		JSONObject subscribe = new JSONObject();
+	public JSONObject getSubscribe(){
+		return this.subscribe;
+	}
+
+
+
+
+	public void setSubscribe( String id) {
+
 		ArrayList<String> arr1 = new ArrayList<String>();
 		arr1.add(id);
-		subscribe.put("type","subscribe");
-		subscribe.put("keys", arr1);
-		return subscribe;
+		this.subscribe.put("type","subscribe");
+		this.subscribe.put("keys", arr1);
+
 
 	}
 
-	public JSONObject unsubscribe(String id) {
-		JSONObject unsubscribe = new JSONObject();
+	public void setUnSubscribe(String id) {
+
 		ArrayList<String> arr1 = new ArrayList<String>();
 		arr1.add(id);
-		unsubscribe.put("type", "unsubscribe");
-		unsubscribe.put("keys", id);
-		return unsubscribe;
+		this.unsubscribe.put("type", "unsubscribe");
+		this.unsubscribe.put("keys", id);
+
 	}
 
-	public JSONObject unsubscribe() {
-		JSONObject unsubscribe = new JSONObject();
 
-		unsubscribe.put("type", "subscribe");
+	public void setUnSubscribe() {
 
-		return unsubscribe;
+
+		this.unsubscribe.put("type", "subscribe");
+
+
 	}
+	public JSONObject getUnSubscribe() {
 
+
+		return this.unsubscribe;
+
+
+	}
 }
