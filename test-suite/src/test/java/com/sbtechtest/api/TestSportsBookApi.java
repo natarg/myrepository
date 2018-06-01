@@ -24,7 +24,7 @@ public class TestSportsBookApi extends SchemaInit  {
 	String outcomeId;
 	JSONDeserializer getObj = JSONDeserializer.getInstance();
 	@Before("@run_football_sportsbookapi_query")
-	public void setScenarioObj(Scenario scenario){
+	private void setScenarioObj(Scenario scenario){
 		// This writes on to the cucumber html reports produced, so the report can print what needs to be checked.
 		this.scenario = scenario;
 

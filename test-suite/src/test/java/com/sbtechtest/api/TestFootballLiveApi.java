@@ -19,7 +19,7 @@ public class TestFootballLiveApi {
 	private Scenario scenario;
 
 	@Before("@run_football_liveapi_query")
-	public void setScenarioObj(Scenario scenario){
+	private void setScenarioObj(Scenario scenario){
 		// This writes on to the cucumber html reports produced, so the report can print what needs to be checked.
 		this.scenario = scenario;
 

@@ -26,7 +26,7 @@ public class SocketMessages implements RequestBodyMessages{
 
 
 	public JSONObject getSubscribe(){
-		System.out.println("printing n getter setter"+ this.subscribe.toJSONString());
+		//	System.out.println("printing n getter setter"+ this.subscribe.toJSONString());
 		return this.subscribe;
 	}
 
