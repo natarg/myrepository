@@ -11,7 +11,6 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import org.json.simple.JSONObject;
-import org.junit.Assert;
 
 import com.sbtechtest.common.GetUrl;
 
@@ -45,7 +44,7 @@ public class TestSocketMessages  {
 	@Then("the response message is verified not to be null$")
 	public void verifytheresponseoutcomes() throws Throwable {
 
-		Assert.assertNotNull(messages);
+
 
 	}
 	public boolean awaitClose(int duration, TimeUnit unit) throws InterruptedException {

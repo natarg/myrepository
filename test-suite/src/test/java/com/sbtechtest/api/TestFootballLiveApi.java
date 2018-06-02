@@ -18,12 +18,13 @@ public class TestFootballLiveApi {
 	public String resource ;
 	private Scenario scenario;
 
-	@Before("@run_football_liveapi_query")
-	private void setScenarioObj(Scenario scenario){
+	@Before("@run_football_liveapi_query,@run_football_sportsbookapi_query")
+	public void before(Scenario scenario){
 		// This writes on to the cucumber html reports produced, so the report can print what needs to be checked.
+		System.out.println("Im inside before hook of football live");
 		this.scenario = scenario;
-
 	}
+
 
 
 

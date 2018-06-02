@@ -24,7 +24,7 @@ public class TestSportsBookApi extends SchemaInit  {
 	String outcomeId;
 	JSONDeserializer getObj = JSONDeserializer.getInstance();
 	@Before("@run_football_sportsbookapi_query")
-	private void setScenarioObj(Scenario scenario){
+	public void setScenarioObj(Scenario scenario){
 		// This writes on to the cucumber html reports produced, so the report can print what needs to be checked.
 		this.scenario = scenario;
 
@@ -53,6 +53,7 @@ public class TestSportsBookApi extends SchemaInit  {
 		// This has extracted one event id and passed the same to events resource path under sportsbook and verified the schema of the resultant response
 		eventId = myNode.get("events").get(0).get("eventId").asText();
 		get(setObj.getSportsEventUrl()+"/"+eventId).then().assertThat().body(matchesJsonSchemaInClasspath("EventSchema.json").using(jsonSchemaFactoryObj));
+		System.out.println("The schema verified for the eventId"+eventId);
 		scenario.write("The schema verified for the eventId"+ eventId);
 	}
 	@Then("^the response to the query on markets matches the markets schema$")
