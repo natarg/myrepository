@@ -1,4 +1,6 @@
 package com.sbtechtest.api;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -8,50 +10,68 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
-import org.json.simple.JSONObject;
+import org.junit.Assert;
+import org.picocontainer.PicoCompositionException;
 
 import com.sbtechtest.common.GetUrl;
+import com.sbtechtest.common.OpenWebSockClient;
+import com.sbtechtest.cpo.RequestBodyMessages;
+import com.sbtechtest.cpo.SocketMessages;
 
 import cucumber.api.Scenario;
+import cucumber.api.java.Before;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 @WebSocket()
 public class TestSocketMessages extends OpenWebSockClient   {
-
+	private final  RequestBodyMessages socMsgObj = new SocketMessages();
 	private final  OpenWebSockClient clOb;
 	private final CountDownLatch closeLatch;
+	private final List<String> messages = new ArrayList<String>();
+	GetUrl uriObj = GetUrl.getInstance();
+
+	private Scenario scenario;
+	@Before("@run_websocket_subscribespecificevent,@run_websocket_subscribealloutcomes")
+	public void setScenarioObj(Scenario scenario){
+		// This writes on to the cucumber html reports produced, so the report can print what needs to be checked.
+		this.scenario = scenario;
+
+	}
+	@SuppressWarnings("unused")
+	private Session session;
+	// The below constructor takes care of dependency injection so that the object reference to OpenWebSockClient and any of its fields's latest values can be inherited here in this test class.
+	// This is cucumber pico container's way of DI. The actual Pico container demands component registration if at all Parametrized constructors are used
 	public TestSocketMessages(OpenWebSockClient clOb){
 		this.clOb = clOb;
 
 		this.closeLatch = new CountDownLatch(1);
 	}
 
-	//List messages ;
+	@When("^the socket client is opened with \"([^\"]*)\" ready to be pushed to subscribe for all outcomes$")
+	public void the_message_is_pushed_via_websocket_api(String arg1) throws PicoCompositionException {
+		socMsgObj.setSubscribe(arg1);
+		this.clOb.getConnection(socMsgObj.getSubscribe().toJSONString());
+	}
 
+	@When("^there is a websocket \"([^\"]*)\" to subscribe to a specific event$")
+	public void there_is_a_websocket_to_subscribe_to_a_specific_event(int no) throws PicoCompositionException {
 
-	GetUrl uriObj = GetUrl.getInstance();
+		socMsgObj.setStatus("event", no);
 
-	private Scenario scenario;
+		this.clOb.getConnection(socMsgObj.getStatus().toJSONString());
 
-	public  String message;
-	@SuppressWarnings("unused")
-	private Session session;
+	}
 
 	@Then("the response message is verified not to be null$")
 	public void verifytheresponseoutcomes(){
 
-
-
-		//	Assert.assertNotNull(messages);
-
-
+		Assert.assertNotNull(messages);
 
 	}
 	public boolean awaitClose(int duration, TimeUnit unit) throws InterruptedException {
 		return this.closeLatch.await(duration, unit);
 	}
-	public void connect(final JSONObject msg) throws Exception {
 
-	}
 
 	@OnWebSocketClose
 	public void onClose(int statusCode, String reason) {
@@ -83,8 +103,7 @@ public class TestSocketMessages extends OpenWebSockClient   {
 	public void onMessage(String msg) {
 		System.out.printf("Got msg: %s%n", msg);
 
-		//messages.add(message);
-
+		messages.add(clOb.message);
 
 
 	}

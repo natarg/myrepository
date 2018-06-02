@@ -1,4 +1,4 @@
-package com.sbtechtest.api;
+package com.sbtechtest.common;
 
 import java.net.URI;
 import java.util.concurrent.TimeUnit;
@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 import org.eclipse.jetty.websocket.client.ClientUpgradeRequest;
 import org.eclipse.jetty.websocket.client.WebSocketClient;
 
-import com.sbtechtest.common.GetUrl;
+import com.sbtechtest.api.TestSocketMessages;
 import com.sbtechtest.cpo.RequestBodyMessages;
 import com.sbtechtest.cpo.SocketMessages;
 
