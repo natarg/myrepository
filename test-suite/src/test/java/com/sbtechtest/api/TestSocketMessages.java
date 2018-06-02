@@ -1,6 +1,4 @@
 package com.sbtechtest.api;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -17,32 +15,33 @@ import com.sbtechtest.common.GetUrl;
 import cucumber.api.Scenario;
 import cucumber.api.java.en.Then;
 @WebSocket()
-public class TestSocketMessages  {
-	List<String> messages = new ArrayList<String>();
+public class TestSocketMessages extends OpenWebSockClient   {
 
-
+	private final  OpenWebSockClient clOb;
 	private final CountDownLatch closeLatch;
+	public TestSocketMessages(OpenWebSockClient clOb){
+		this.clOb = clOb;
+
+		this.closeLatch = new CountDownLatch(1);
+	}
+
+	//List messages ;
+
+
 	GetUrl uriObj = GetUrl.getInstance();
 
 	private Scenario scenario;
+
 	public  String message;
 	@SuppressWarnings("unused")
 	private Session session;
 
-	public TestSocketMessages(String message) {
-
-		this.message = message;
-		this.closeLatch = new CountDownLatch(1);
-
-
-	}
-
-
-
-
-
 	@Then("the response message is verified not to be null$")
-	public void verifytheresponseoutcomes() throws Throwable {
+	public void verifytheresponseoutcomes(){
+
+
+
+		//	Assert.assertNotNull(messages);
 
 
 
@@ -70,7 +69,7 @@ public class TestSocketMessages  {
 		try {
 			Future<Void> fut;
 
-			fut = session.getRemote().sendStringByFuture(message);
+			fut = session.getRemote().sendStringByFuture(clOb.message);
 			fut.get(10, TimeUnit.SECONDS);
 			/*fut = session.getRemote().sendStringByFuture(mymsg.subscribe("e.21249950").toJSONString());
 			fut.get(5, TimeUnit.SECONDS);*/
@@ -84,7 +83,7 @@ public class TestSocketMessages  {
 	public void onMessage(String msg) {
 		System.out.printf("Got msg: %s%n", msg);
 
-		messages.add(message);
+		//messages.add(message);
 
 
 
