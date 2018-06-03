@@ -6,7 +6,7 @@ import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInC
 import com.fasterxml.jackson.databind.JsonNode;
 import com.jayway.restassured.response.Response;
 import com.sbtechtest.common.GetUrl;
-import com.sbtechtest.common.JSONDeserializer;
+import com.sbtechtest.common.JSONResponseMapper;
 import com.sbtechtest.common.SchemaInit;
 
 import cucumber.api.Scenario;
@@ -14,7 +14,7 @@ import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 
-public class TestSportsBookApi extends SchemaInit  {
+public class SportsBookApiStepDef extends SchemaInit  {
 	GetUrl setObj = GetUrl.getInstance();
 	private Scenario scenario;
 	public Response rsp;
@@ -22,7 +22,7 @@ public class TestSportsBookApi extends SchemaInit  {
 	String eventId;
 	String marketId;
 	String outcomeId;
-	JSONDeserializer getObj = JSONDeserializer.getInstance();
+	JSONResponseMapper getObj = JSONResponseMapper.getInstance();
 	@Before("@run_football_sportsbookapi_query")
 	public void setScenarioObj(Scenario scenario){
 		// This writes on to the cucumber html reports produced, so the report can print what needs to be checked.

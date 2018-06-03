@@ -16,17 +16,18 @@ import org.picocontainer.PicoCompositionException;
 import com.sbtechtest.common.GetUrl;
 import com.sbtechtest.common.OpenWebSockClient;
 import com.sbtechtest.cpo.RequestBodyMessages;
-import com.sbtechtest.cpo.SocketMessages;
+import com.sbtechtest.cpo.SocketMessagesImpl;
 
 import cucumber.api.Scenario;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 @WebSocket()
-public class TestSocketMessages extends OpenWebSockClient   {
-	private final  RequestBodyMessages socMsgObj = new SocketMessages();
+public class SocketMessagesStepDef extends OpenWebSockClient   {
+	private final  RequestBodyMessages socMsgObj = new SocketMessagesImpl();
 	private final  OpenWebSockClient clOb;
 	private final CountDownLatch closeLatch;
+	public String myclassmsg;
 	private final List<String> messages = new ArrayList<String>();
 	GetUrl uriObj = GetUrl.getInstance();
 
@@ -39,9 +40,9 @@ public class TestSocketMessages extends OpenWebSockClient   {
 	}
 	@SuppressWarnings("unused")
 	private Session session;
-	// The below constructor takes care of dependency injection so that the object reference to OpenWebSockClient and any of its fields's latest values can be inherited here in this test class.
-	// This is cucumber pico container's way of DI. The actual Pico container demands component registration if at all Parametrized constructors are used
-	public TestSocketMessages(OpenWebSockClient clOb){
+	// This is DI by cucumber pico container
+	// By this way, tomorrow any other test class for websocket api testing would make use of the sockclient object to pass the message body
+	public SocketMessagesStepDef(OpenWebSockClient clOb){
 		this.clOb = clOb;
 
 		this.closeLatch = new CountDownLatch(1);
@@ -50,6 +51,7 @@ public class TestSocketMessages extends OpenWebSockClient   {
 	@When("^the socket client is opened with \"([^\"]*)\" ready to be pushed to subscribe for all outcomes$")
 	public void the_message_is_pushed_via_websocket_api(String arg1) throws PicoCompositionException {
 		socMsgObj.setSubscribe(arg1);
+		myclassmsg = socMsgObj.getSubscribe().toJSONString();
 		this.clOb.getConnection(socMsgObj.getSubscribe().toJSONString());
 	}
 
@@ -66,6 +68,8 @@ public class TestSocketMessages extends OpenWebSockClient   {
 	public void verifytheresponseoutcomes(){
 
 		Assert.assertNotNull(messages);
+		System.out.println("The messages are"+ messages.toString());
+		scenario.write("Printing the messages on the report"+ messages.toString());
 
 	}
 	public boolean awaitClose(int duration, TimeUnit unit) throws InterruptedException {
@@ -103,7 +107,7 @@ public class TestSocketMessages extends OpenWebSockClient   {
 	public void onMessage(String msg) {
 		System.out.printf("Got msg: %s%n", msg);
 
-		messages.add(clOb.message);
+		messages.add(msg);
 
 
 	}

@@ -6,20 +6,20 @@ import java.util.concurrent.TimeUnit;
 import org.eclipse.jetty.websocket.client.ClientUpgradeRequest;
 import org.eclipse.jetty.websocket.client.WebSocketClient;
 
-import com.sbtechtest.api.TestSocketMessages;
+import com.sbtechtest.api.SocketMessagesStepDef;
 import com.sbtechtest.cpo.RequestBodyMessages;
-import com.sbtechtest.cpo.SocketMessages;
+import com.sbtechtest.cpo.SocketMessagesImpl;
 
 public class OpenWebSockClient {
 	GetUrl uriObj = GetUrl.getInstance();
-	private final  RequestBodyMessages socMsgObj = new SocketMessages();
+	private final  RequestBodyMessages socMsgObj = new SocketMessagesImpl();
 
 	public String message;
 
 	public void getConnection(String message) {
 		this.message = message;
 		WebSocketClient client = new WebSocketClient();
-		TestSocketMessages sockObj = new TestSocketMessages(this);
+		SocketMessagesStepDef sockObj = new SocketMessagesStepDef(this);
 		try {
 			client.start();
 			URI echoUri = new URI(uriObj.readUrlFile("socketUri"));

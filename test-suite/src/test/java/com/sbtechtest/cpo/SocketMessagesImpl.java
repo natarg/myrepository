@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.json.simple.JSONObject;
 
-public class SocketMessages implements RequestBodyMessages{
+public class SocketMessagesImpl implements RequestBodyMessages{
 
 	private String entity;
 	private int entityNo;

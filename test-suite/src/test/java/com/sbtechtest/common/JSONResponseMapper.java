@@ -7,16 +7,16 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class JSONDeserializer {
+public class JSONResponseMapper {
 	// As of now this has only objectMapper , it can be added with additional functions to get to the elements in the Json response
-	public static JSONDeserializer  instance = new JSONDeserializer ();
+	public static JSONResponseMapper  instance = new JSONResponseMapper ();
 	ObjectMapper myObjMap = new ObjectMapper();
 
 
-	private JSONDeserializer(){}
+	private JSONResponseMapper(){}
 
 	//Get the only object available
-	public static JSONDeserializer getInstance(){
+	public static JSONResponseMapper getInstance(){
 		return instance;
 	}
 	public JsonNode getJsonNode(String jsonRsp) throws IOException, JsonParseException,
