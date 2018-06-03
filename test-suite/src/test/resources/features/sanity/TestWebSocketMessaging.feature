@@ -9,7 +9,7 @@ Examples:
 |o.*|
 
 @run_websocket_subscribespecificevent
-Scenario Outline:
+Scenario Outline: testscoketforspecific event
 When there is a websocket "<message>" to subscribe to a specific event
 Then the response message is verified not to be null
 Examples:

@@ -1,6 +1,8 @@
 package com.sbtechtest.common;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jetty.websocket.client.ClientUpgradeRequest;
@@ -13,7 +15,7 @@ import com.sbtechtest.cpo.SocketMessagesImpl;
 public class OpenWebSockClient {
 	GetUrl uriObj = GetUrl.getInstance();
 	private final  RequestBodyMessages socMsgObj = new SocketMessagesImpl();
-
+	public List<String> messages = new ArrayList<String>();
 	public String message;
 
 	public void getConnection(String message) {
@@ -28,6 +30,7 @@ public class OpenWebSockClient {
 
 			System.out.printf("Connecting to : %s%n", echoUri);
 			sockObj.awaitClose(10, TimeUnit.SECONDS);
+
 		} catch (Throwable t) {
 			t.printStackTrace();
 		} finally {

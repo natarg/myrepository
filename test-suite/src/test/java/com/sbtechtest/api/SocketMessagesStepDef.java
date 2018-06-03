@@ -1,6 +1,4 @@
 package com.sbtechtest.api;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -28,7 +26,7 @@ public class SocketMessagesStepDef extends OpenWebSockClient   {
 	private final  OpenWebSockClient clOb;
 	private final CountDownLatch closeLatch;
 	public String myclassmsg;
-	private final List<String> messages = new ArrayList<String>();
+
 	GetUrl uriObj = GetUrl.getInstance();
 
 	private Scenario scenario;
@@ -67,9 +65,15 @@ public class SocketMessagesStepDef extends OpenWebSockClient   {
 	@Then("the response message is verified not to be null$")
 	public void verifytheresponseoutcomes(){
 
-		Assert.assertNotNull(messages);
-		System.out.println("The messages are"+ messages.toString());
-		scenario.write("Printing the messages on the report"+ messages.toString());
+		Assert.assertNotNull(clOb.messages);
+
+		for (int i=0; i<clOb.messages.size();i++){
+			scenario.write("<br> Printing the event messages" + clOb.messages.get(i)+"</br>");
+		}
+
+
+
+
 
 	}
 	public boolean awaitClose(int duration, TimeUnit unit) throws InterruptedException {
@@ -95,9 +99,7 @@ public class SocketMessagesStepDef extends OpenWebSockClient   {
 
 			fut = session.getRemote().sendStringByFuture(clOb.message);
 			fut.get(10, TimeUnit.SECONDS);
-			/*fut = session.getRemote().sendStringByFuture(mymsg.subscribe("e.21249950").toJSONString());
-			fut.get(5, TimeUnit.SECONDS);*/
-			//session.close(StatusCode.NORMAL, "I'm done");
+
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}
@@ -105,9 +107,10 @@ public class SocketMessagesStepDef extends OpenWebSockClient   {
 
 	@OnWebSocketMessage
 	public void onMessage(String msg) {
-		System.out.printf("Got msg: %s%n", msg);
+		//System.out.printf("Got msg: %s%n", msg);
+		System.out.println("Got msg: %s%n"+msg);
 
-		messages.add(msg);
+		clOb.messages.add(msg);
 
 
 	}
