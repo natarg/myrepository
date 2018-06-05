@@ -10,7 +10,8 @@ public class GetUrl {
 
 	String nameofpage ;
 	String url;
-	public static final String ENVNAME = System.getProperty("envName");
+	public static final String ENVNAME = System.getenv("envName");
+
 	private static GetUrl instance = new GetUrl();
 	private GetUrl(){}
 
@@ -19,6 +20,7 @@ public class GetUrl {
 		return instance;
 	}
 	public String readUrlFile(String readstr) throws IOException {
+
 		String filePath = System.getProperty("user.dir")+"\\src\\test\\resources\\"+ENVNAME+"suite.properties";
 		System.out.println("Print"+ filePath);
 		BufferedReader inFile = new BufferedReader(new FileReader(filePath));
