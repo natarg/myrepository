@@ -10,7 +10,7 @@ public class GetUrl {
 
 	String nameofpage ;
 	String url;
-	public static final String ENVNAME = System.getenv("envName");
+	public static final String ENVNAME = System.getProperty("env.Name");
 
 	private static GetUrl instance = new GetUrl();
 	private GetUrl(){}
