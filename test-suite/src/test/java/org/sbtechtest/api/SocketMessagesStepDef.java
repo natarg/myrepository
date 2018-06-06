@@ -12,8 +12,8 @@ import org.junit.Assert;
 import org.picocontainer.PicoCompositionException;
 import org.sbtechtest.common.GetUrl;
 import org.sbtechtest.common.OpenWebSockClient;
-import org.sbtechtest.cpo.RequestBodyMessages;
-import org.sbtechtest.cpo.SocketMessagesImpl;
+import org.sbtechtest.dao.SocketMessageDao;
+import org.sbtechtest.dao.SocketMessagesDaoImpl;
 
 import cucumber.api.Scenario;
 import cucumber.api.java.Before;
@@ -21,7 +21,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 @WebSocket()
 public class SocketMessagesStepDef extends OpenWebSockClient   {
-	private final  RequestBodyMessages socMsgObj = new SocketMessagesImpl();
+	private final  SocketMessageDao socMsgObj = new SocketMessagesDaoImpl();
 	private final  OpenWebSockClient clOb;
 	private final CountDownLatch closeLatch;
 	public String myclassmsg;
@@ -47,17 +47,17 @@ public class SocketMessagesStepDef extends OpenWebSockClient   {
 
 	@When("^the socket client is opened with \"([^\"]*)\" ready to be pushed to subscribe for all outcomes$")
 	public void the_message_is_pushed_via_websocket_api(String arg1) throws PicoCompositionException {
-		socMsgObj.setSubscribe(arg1);
-		myclassmsg = socMsgObj.getSubscribe().toJSONString();
-		this.clOb.getConnection(socMsgObj.getSubscribe().toJSONString());
+		socMsgObj.setSubscribeObj(arg1);
+		myclassmsg = socMsgObj.getSubscribeObj().toJSONString();
+		this.clOb.getConnection(socMsgObj.getSubscribeObj().toJSONString());
 	}
 
 	@When("^there is a websocket \"([^\"]*)\" to subscribe to a specific event$")
 	public void there_is_a_websocket_to_subscribe_to_a_specific_event(int no) throws PicoCompositionException {
 
-		socMsgObj.setStatus("event", no);
+		socMsgObj.setEntityStatus("event", no);
 
-		this.clOb.getConnection(socMsgObj.getStatus().toJSONString());
+		this.clOb.getConnection(socMsgObj.getEntityStatus().toJSONString());
 
 	}
 

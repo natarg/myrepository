@@ -25,21 +25,21 @@ public class GetUrl {
 		System.out.println("Print"+ filePath);
 		BufferedReader inFile = new BufferedReader(new FileReader(filePath));
 		String line;
-		String[] retarr = new String[2];
+		String value = null;
 		while((line=inFile.readLine())!= null	){
 			String[] temp = line.split("=");
 
-			retarr[0] = temp[0];
-			if (retarr[0].equals(readstr)){
-				retarr[1] = temp[1];
+
+			if (temp[0].equals(readstr)){
+				value = temp[1];
 			} else {
 				//System.out.println("do nothing");
 			}
 
 		}
-		System.out.println("The url is"+ retarr[1]);
+		System.out.println("The url is"+ value);
 		inFile.close();
-		return retarr[1];
+		return value;
 	}
 	public String getFootBallLive() throws IOException{
 		System.out.println("returning"+readUrlFile("baseUri")+"football/live");

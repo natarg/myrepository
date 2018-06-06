@@ -1,10 +1,10 @@
-package org.sbtechtest.cpo;
+package org.sbtechtest.dao;
 
 import java.util.ArrayList;
 
 import org.json.simple.JSONObject;
 
-public class SocketMessagesImpl implements RequestBodyMessages{
+public class SocketMessagesDaoImpl implements SocketMessageDao{
 
 	private String entity;
 	private int entityNo;
@@ -13,58 +13,41 @@ public class SocketMessagesImpl implements RequestBodyMessages{
 	private final JSONObject unsubscribe = new JSONObject();
 
 
-	public void setStatus(String entity, int entityNo){
+	public void setEntityStatus(String entity, int entityNo) {
+
 		this.entity = entity;
 		this.entityNo = entityNo;
+
 	}
-	public JSONObject getStatus() {
+	public JSONObject getEntityStatus() {
 		JSONObject statObj = new JSONObject();
 		statObj.put("type", this.entity);
 		statObj.put("id", this.entityNo);
 		return statObj;
 	}
-
-
-	public JSONObject getSubscribe(){
-		//	System.out.println("printing n getter setter"+ this.subscribe.toJSONString());
+	public JSONObject getSubscribeObj() {
+		// TODO Auto-generated method stub
 		return this.subscribe;
 	}
-
-
-
-
-	public void setSubscribe( String id) {
-
+	public void setSubscribeObj(String id) {
 		ArrayList<String> arr1 = new ArrayList<String>();
 		arr1.add(id);
 		this.subscribe.put("type","subscribe");
 		this.subscribe.put("keys", arr1);
 
-
 	}
-
-	public void setUnSubscribe(String id) {
-
+	public void setUnSubscribeObj(String id) {
 		ArrayList<String> arr1 = new ArrayList<String>();
 		arr1.add(id);
 		this.unsubscribe.put("type", "unsubscribe");
 		this.unsubscribe.put("keys", id);
 
 	}
-
-
-	public void setUnSubscribe() {
-
-
+	public void setUnSubscribeObj() {
 		this.unsubscribe.put("type", "unsubscribe");
 
-
 	}
-	public JSONObject getUnSubscribe() {
-
-
+	public JSONObject getUnSubscribeObj() {
 		return this.unsubscribe;
-
-
 	}
 }

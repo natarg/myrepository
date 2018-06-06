@@ -8,12 +8,12 @@ import java.util.concurrent.TimeUnit;
 import org.eclipse.jetty.websocket.client.ClientUpgradeRequest;
 import org.eclipse.jetty.websocket.client.WebSocketClient;
 import org.sbtechtest.api.SocketMessagesStepDef;
-import org.sbtechtest.cpo.RequestBodyMessages;
-import org.sbtechtest.cpo.SocketMessagesImpl;
+import org.sbtechtest.dao.SocketMessageDao;
+import org.sbtechtest.dao.SocketMessagesDaoImpl;
 
 public class OpenWebSockClient {
 	GetUrl uriObj = GetUrl.getInstance();
-	private final  RequestBodyMessages socMsgObj = new SocketMessagesImpl();
+	private final  SocketMessageDao socMsgObj = new SocketMessagesDaoImpl();
 	public List<String> messages = new ArrayList<String>();
 	public String message;
 
