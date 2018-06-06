@@ -1,4 +1,4 @@
-package com.sbtechtest.api;
+package org.sbtechtest.api;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -10,11 +10,10 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import org.junit.Assert;
 import org.picocontainer.PicoCompositionException;
-
-import com.sbtechtest.common.GetUrl;
-import com.sbtechtest.common.OpenWebSockClient;
-import com.sbtechtest.cpo.RequestBodyMessages;
-import com.sbtechtest.cpo.SocketMessagesImpl;
+import org.sbtechtest.common.GetUrl;
+import org.sbtechtest.common.OpenWebSockClient;
+import org.sbtechtest.cpo.RequestBodyMessages;
+import org.sbtechtest.cpo.SocketMessagesImpl;
 
 import cucumber.api.Scenario;
 import cucumber.api.java.Before;

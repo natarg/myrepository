@@ -1,4 +1,4 @@
-package com.sbtechtest.cpo;
+package org.sbtechtest.cpo;
 
 import org.json.simple.JSONObject;
 

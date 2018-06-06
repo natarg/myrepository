@@ -1,4 +1,4 @@
-package com.sbtechtest.common;
+package org.sbtechtest.common;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -7,10 +7,9 @@ import java.util.concurrent.TimeUnit;
 
 import org.eclipse.jetty.websocket.client.ClientUpgradeRequest;
 import org.eclipse.jetty.websocket.client.WebSocketClient;
-
-import com.sbtechtest.api.SocketMessagesStepDef;
-import com.sbtechtest.cpo.RequestBodyMessages;
-import com.sbtechtest.cpo.SocketMessagesImpl;
+import org.sbtechtest.api.SocketMessagesStepDef;
+import org.sbtechtest.cpo.RequestBodyMessages;
+import org.sbtechtest.cpo.SocketMessagesImpl;
 
 public class OpenWebSockClient {
 	GetUrl uriObj = GetUrl.getInstance();

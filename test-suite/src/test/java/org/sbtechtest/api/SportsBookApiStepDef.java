@@ -1,13 +1,14 @@
-package com.sbtechtest.api;
+package org.sbtechtest.api;
 
 import static com.jayway.restassured.RestAssured.get;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 
+import org.sbtechtest.common.GetUrl;
+import org.sbtechtest.common.JSONResponseMapper;
+import org.sbtechtest.common.SchemaInit;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.jayway.restassured.response.Response;
-import com.sbtechtest.common.GetUrl;
-import com.sbtechtest.common.JSONResponseMapper;
-import com.sbtechtest.common.SchemaInit;
 
 import cucumber.api.Scenario;
 import cucumber.api.java.Before;

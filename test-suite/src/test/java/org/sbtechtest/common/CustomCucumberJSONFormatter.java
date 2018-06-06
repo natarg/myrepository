@@ -1,4 +1,4 @@
-package com.sbtechtest.common;
+package org.sbtechtest.common;
 import static cucumber.runtime.Utils.toURL;
 import gherkin.formatter.JSONFormatter;
 

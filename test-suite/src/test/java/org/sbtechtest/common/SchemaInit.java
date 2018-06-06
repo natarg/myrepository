@@ -1,4 +1,4 @@
-package com.sbtechtest.common;
+package org.sbtechtest.common;
 
 import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.cfg.ValidationConfiguration;

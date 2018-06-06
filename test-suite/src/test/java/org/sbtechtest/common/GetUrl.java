@@ -1,4 +1,4 @@
-package com.sbtechtest.common;
+package org.sbtechtest.common;
 
 
 import java.io.BufferedReader;
@@ -21,7 +21,7 @@ public class GetUrl {
 	}
 	public String readUrlFile(String readstr) throws IOException {
 
-		String filePath = System.getProperty("user.dir")+"\\src\\test\\resources\\"+"qa"+"suite.properties";
+		String filePath = System.getProperty("user.dir")+"\\src\\test\\resources\\"+"qasuite.properties";
 		System.out.println("Print"+ filePath);
 		BufferedReader inFile = new BufferedReader(new FileReader(filePath));
 		String line;

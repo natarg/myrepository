@@ -1,9 +1,10 @@
-package com.sbtechtest.api;
+package org.sbtechtest.api;
 
 import static com.jayway.restassured.RestAssured.get;
 
+import org.sbtechtest.common.GetUrl;
+
 import com.jayway.restassured.response.Response;
-import com.sbtechtest.common.GetUrl;
 
 import cucumber.api.Scenario;
 import cucumber.api.java.Before;

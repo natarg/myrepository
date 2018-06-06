@@ -1,4 +1,4 @@
-package com.sbtechtest.runcukes;
+package org.sbtechtest.runcukes;
 
 import org.junit.runner.RunWith;
 
