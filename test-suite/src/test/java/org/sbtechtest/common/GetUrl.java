@@ -21,7 +21,7 @@ public class GetUrl {
 	}
 	public String readUrlFile(String readstr) throws IOException {
 
-		String filePath = System.getProperty("user.dir")+"\\src\\test\\resources\\"+"qasuite.properties";
+		String filePath = System.getProperty("user.dir")+"\\src\\test\\resources\\"+ENVNAME+"suite.properties";
 		System.out.println("Print"+ filePath);
 		BufferedReader inFile = new BufferedReader(new FileReader(filePath));
 		String line;

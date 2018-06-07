@@ -1,4 +1,5 @@
 package org.sbtechtest.api;
+import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -11,9 +12,14 @@ import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import org.junit.Assert;
 import org.picocontainer.PicoCompositionException;
 import org.sbtechtest.common.GetUrl;
+import org.sbtechtest.common.JSONResponseMapper;
 import org.sbtechtest.common.OpenWebSockClient;
 import org.sbtechtest.dao.SocketMessageDao;
 import org.sbtechtest.dao.SocketMessagesDaoImpl;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import cucumber.api.Scenario;
 import cucumber.api.java.Before;
@@ -25,7 +31,8 @@ public class SocketMessagesStepDef extends OpenWebSockClient   {
 	private final  OpenWebSockClient clOb;
 	private final CountDownLatch closeLatch;
 	public String myclassmsg;
-
+	JsonNode mynode;
+	JSONResponseMapper jsonRsp;
 	GetUrl uriObj = GetUrl.getInstance();
 
 	private Scenario scenario;
@@ -62,13 +69,16 @@ public class SocketMessagesStepDef extends OpenWebSockClient   {
 	}
 
 	@Then("the response message is verified not to be null$")
-	public void verifytheresponseoutcomes(){
+	public void verifytheresponseoutcomes() throws JsonParseException, JsonMappingException, IOException{
 
 		Assert.assertNotNull(clOb.messages);
 
 		for (int i=0; i<clOb.messages.size();i++){
+			mynode = jsonRsp.getJsonNode(clOb.messages.get(i).toString());
+
 			scenario.write("<br> Printing the event messages" + clOb.messages.get(i)+"</br>");
 		}
+
 
 
 
