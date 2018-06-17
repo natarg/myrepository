@@ -32,7 +32,7 @@ public class SocketMessagesStepDef extends OpenWebSockClient   {
 	private final CountDownLatch closeLatch;
 	public String myclassmsg;
 	JsonNode mynode;
-	JSONResponseMapper jsonRsp;
+	JSONResponseMapper jsonRsp = JSONResponseMapper.getInstance();
 	GetUrl uriObj = GetUrl.getInstance();
 
 	private Scenario scenario;
@@ -71,13 +71,12 @@ public class SocketMessagesStepDef extends OpenWebSockClient   {
 	@Then("the response message is verified not to be null$")
 	public void verifytheresponseoutcomes() throws JsonParseException, JsonMappingException, IOException{
 
-		Assert.assertNotNull(clOb.messages);
+		Assert.assertTrue(clOb.messages.size()>1);
 
-		for (int i=0; i<clOb.messages.size();i++){
-			mynode = jsonRsp.getJsonNode(clOb.messages.get(i).toString());
 
-			scenario.write("<br> Printing the event messages" + clOb.messages.get(i)+"</br>");
-		}
+		scenario.write("The size of messages loaded in response object is"+ clOb.messages.size());
+
+
 
 
 
@@ -85,6 +84,29 @@ public class SocketMessagesStepDef extends OpenWebSockClient   {
 
 
 	}
+	@Then("the response message is verified to have relevant response for the event queried$")
+	public void verifyRelevantMsg() throws JsonParseException, JsonMappingException, IOException {
+		for (int i=1; i<clOb.messages.size();i++){
+			mynode = jsonRsp.getJsonNode(clOb.messages.get(i).toString());
+
+			Assert.assertEquals("21249939", mynode.get("eventId").asText());
+
+			scenario.write("<br> Printing the event messages" + clOb.messages.get(i)+"</br>");
+		}
+
+	}
+	@Then("the response is verified to have relevant response for the outcomes subscribed$")
+	public void verifyRelevantMsgOutcome() throws JsonParseException, JsonMappingException, IOException {
+		for (int i=1; i<clOb.messages.size();i++){
+			mynode = jsonRsp.getJsonNode(clOb.messages.get(i).toString());
+
+
+
+			scenario.write("<br> Printing the event messages" + clOb.messages.get(i)+"</br>");
+		}
+
+	}
+
 	public boolean awaitClose(int duration, TimeUnit unit) throws InterruptedException {
 		return this.closeLatch.await(duration, unit);
 	}

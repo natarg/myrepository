@@ -5,7 +5,6 @@ import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInC
 
 import org.sbtechtest.common.GetUrl;
 import org.sbtechtest.common.JSONResponseMapper;
-import org.sbtechtest.common.SchemaInit;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.jayway.restassured.response.Response;
@@ -15,7 +14,7 @@ import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 
-public class SportsBookApiStepDef extends SchemaInit  {
+public class SportsBookApiStepDef   {
 	GetUrl setObj = GetUrl.getInstance();
 	private Scenario scenario;
 	public Response rsp;
@@ -38,7 +37,7 @@ public class SportsBookApiStepDef extends SchemaInit  {
 		// Below is a sample to retrieve an event id from football live api for testing events schema later
 		// This uses Jackson JSONNode class to extract a value
 		System.out.println("Printing"+ setObj.getFootBallLive()+"?primaryMarkets=true");
-		rsp = get(setObj.getFootBallLive()+"?primaryMarkets=true");
+		rsp =  get(setObj.getFootBallLive()+"?primaryMarkets=true");
 
 		myNode = getObj.getJsonNode(rsp.asString());
 		System.out.println("Printing full response"+ rsp.asString());
@@ -53,7 +52,7 @@ public class SportsBookApiStepDef extends SchemaInit  {
 			throws Throwable {
 		// This has extracted one event id and passed the same to events resource path under sportsbook and verified the schema of the resultant response
 		eventId = myNode.get("events").get(0).get("eventId").asText();
-		get(setObj.getSportsEventUrl()+"/"+eventId).then().assertThat().body(matchesJsonSchemaInClasspath("EventSchema.json").using(jsonSchemaFactoryObj));
+		get(setObj.getSportsEventUrl()+"/"+eventId).then().assertThat().body(matchesJsonSchemaInClasspath("EventSchema.json"));
 		System.out.println("The schema verified for the eventId"+eventId);
 		scenario.write("The schema verified for the eventId"+ eventId);
 	}
@@ -64,7 +63,7 @@ public class SportsBookApiStepDef extends SchemaInit  {
 		eventId = eventId.toString();
 
 		marketId = myNode.get("markets").get(eventId).get(0).get("marketId").asText();
-		get(setObj.getSportsMarketUrl()+"/"+marketId).then().assertThat().body(matchesJsonSchemaInClasspath("MarketSchema.json").using(jsonSchemaFactoryObj));
+		get(setObj.getSportsMarketUrl()+"/"+marketId).then().assertThat().body(matchesJsonSchemaInClasspath("MarketSchema.json"));
 		scenario.write("The schema verified for the marketId"+ marketId);
 	}
 
@@ -74,6 +73,6 @@ public class SportsBookApiStepDef extends SchemaInit  {
 		// an outcome is for a market
 		marketId = marketId.toString();
 		outcomeId = myNode.get("outcomes").get(marketId).get(0).get("outcomeId").asText();
-		get(setObj.getSportsOutComeUrl()+"/"+outcomeId).then().assertThat().body(matchesJsonSchemaInClasspath("OutcomeSchema.json").using(jsonSchemaFactoryObj));
+		get(setObj.getSportsOutComeUrl()+"/"+outcomeId).then().assertThat().body(matchesJsonSchemaInClasspath("OutcomeSchema.json"));
 	}
 }

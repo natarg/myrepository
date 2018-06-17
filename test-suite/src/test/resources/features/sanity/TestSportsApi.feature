@@ -12,3 +12,9 @@ Given there are set of foot ball live events
 Then the response to the query on sports events matches the events schema
 Then the response to the query on markets matches the markets schema
 Then the response to the query on outcomes events matches the outcomes schema
+
+
+@run_football_check_event_details
+Scenario:
+When the football live is queried
+Then the response contains competitor information for each of the events listed
