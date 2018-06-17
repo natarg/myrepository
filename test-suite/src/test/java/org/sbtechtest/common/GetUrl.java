@@ -20,7 +20,7 @@ public class GetUrl {
 		return instance;
 	}
 	public String readUrlFile(String readstr) throws IOException {
-		System.out.println("Printing the env value"+ ENVNAME);
+		System.out.println("Printing the env value"+ System.getProperty("env.Name"));
 
 		String filePath = System.getProperty("user.dir")+"\\src\\test\\resources\\"+ENVNAME+"suite.properties";
 
