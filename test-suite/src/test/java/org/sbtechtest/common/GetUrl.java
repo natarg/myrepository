@@ -20,9 +20,9 @@ public class GetUrl {
 		return instance;
 	}
 	public String readUrlFile(String readstr) throws IOException {
-		System.out.println("Printing the env value"+ System.getProperty("env.Integration"));
 
-		String filePath = System.getProperty("user.dir")+"\\src\\test\\resources\\"+ENVNAME+"suite.properties";
+
+		String filePath = System.getProperty("user.dir")+"\\src\\test\\resources\\"+"qasuite.properties";
 
 		BufferedReader inFile = new BufferedReader(new FileReader(filePath));
 		String line;
